@@ -17,7 +17,7 @@ passport.use(
     new googleStrategy({
         clientID: keys.googleClientID,
         clientSecret: keys.googleClientSecret ,
-        callbackURL: (NODE_ENV === 'production') ? 'https://toonpt.herokuapp.com/auth/google' : '/auth/google'
+        callbackURL: (process.env.NODE_ENV === 'production') ? 'https://toonpt.herokuapp.com/auth/google' : '/auth/google'
     }, (accessToken , refreshToken , profile , done) => {
         User.findOne({googleID : profile.id})
             .then(existUser => {
