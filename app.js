@@ -9,6 +9,7 @@ mongoose.connect(mongourl)
 const app = express();
 
 require('./models/users');
+require('./models/surveys')
 require('./services/passport');
 
 app.use(bodyParser.json());
@@ -25,6 +26,7 @@ app.use(passport.session());
 
 require('./routes/authRoutes')(app);
 require('./routes/billingRoute')(app);
+require('./routes/surveyRoute')(app);
 
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static('client/build'));
