@@ -6,14 +6,32 @@ const requireCredits = require("../middleware/requireCredits");
 const surveyTemplate = require('../services/emailTemplate/surveyTemplate');
 const nodemailer = require('nodemailer');
 
+
 module.exports = (app) => {
-    app.get('/api/surveys/thank' , (req , res) => {
+    app.get('/api/surveys/thank/:userid/:surveyid/yes' , async (req , res) => {
+        //console.log(req.params.surveyid)
+        const request = await Survey.findById(req.params.surveyid);
+        if(request._user == req.params.userid){
+            console.log(request)
+            request.yes += 1;
+            await request.save()
+        }
         res.send('thx for voting')
-        res.redirect('/')
+    })
+
+    app.get('/api/surveys/thank/:userid/:surveyid/no' , async (req , res) => {
+        //console.log(req.params.surveyid)
+        const request = await Survey.findById(req.params.surveyid);
+        if(request._user == req.params.userid){
+            request.no += 1;
+            await request.save()
+        }
+        res.send('thx for voting')
     })
 
     app.post('/api/surveys/', requireLogin , requireCredits , async (req , res) => {
-        const { title , subject , body , recipients } = req.body;
+        const { title , subject , body } = req.body;
+        const recipients = req.body.emails
         const survey = new Survey({
             title ,
             subject , 
@@ -33,22 +51,27 @@ module.exports = (app) => {
             pass: 'mink123mk'
           }
         });
-        
+        var thisSurvey = await survey.save();
         var mailOptions = {
           from: 'rimb9pkminkfordev@gmail.com',
           to: recipients,
           subject: subject,
-          html: surveyTemplate(survey)
+          html: surveyTemplate(survey , req.user , thisSurvey)
         };
         
         try {
             await transporter.sendMail(mailOptions);
-            await survey.save();
+            //await survey.save();
             req.user.credits -= 1 ;
             const user =  await req.user.save();
             res.send(user)
         } catch (err){
             res.status(422).send(err)
         }
+    })
+
+    app.get('/api/dashboard', async (req , res) => {
+        const userSurvey = await Survey.find({_user : req.user.id})
+        res.send(userSurvey)
     })
 }
