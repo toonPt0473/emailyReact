@@ -10,6 +10,7 @@ class Dashboard extends Component {
     }
 
     renderContent(surveys){
+        
         if(surveys == null){
             return <div className="progress">
                         <div className="indeterminate"></div>
@@ -29,7 +30,7 @@ class Dashboard extends Component {
             return (
                 <div className="row" key={survey._id}>
                     <div className="col s12 m12">
-                        <div className="card blue-grey darken-1">
+                        <div className="card blue-grey darken-1 z-depth-5">
                             <div className="card-content white-text">
                                 <span className="card-title center">Survey Title : {survey.title}</span>
                                 <p>Email Subject : <strong className="right">{survey.subject}</strong></p>
@@ -51,7 +52,6 @@ class Dashboard extends Component {
             <div>
                 <h1>Dashboard</h1>
                 {this.renderContent(this.props.survey)}
-                
                 <div className="fixed-action-btn">
                     <Link to="/surveys/new" className="btn-floating btn-large red">
                         <i className="material-icons">add_circle_outline</i>
@@ -62,9 +62,10 @@ class Dashboard extends Component {
     }
 }
 
-function mapState({ survey }){
+function mapState({ survey , auth }){
     return {
-        survey
+        survey,
+        auth
     }
 }
 

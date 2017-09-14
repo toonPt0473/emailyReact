@@ -23,7 +23,10 @@ class Header extends React.Component{
         return (
             <nav>
                 <div className="nav-wrapper">
-                    <Link className="brand-logo" to={this.props.auth ? '/surveys' : '/'}>Emaily</Link>
+                    <Link className="brand-logo" to={this.props.auth ? '/surveys' : '/'} style={{marginLeft : "25px"}}>
+                        Emaily
+                        <i className="material-icons right">people</i>
+                    </Link>
                     <ul className="right hide-on-med-and-down">
                         {this.renderContent()}
                     </ul>
