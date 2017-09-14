@@ -31,7 +31,7 @@ class Dashboard extends Component {
                     <div className="col s12 m12">
                         <div className="card blue-grey darken-1">
                             <div className="card-content white-text">
-                                <span className="card-title">Survey Title : {survey.title}</span>
+                                <span className="card-title center">Survey Title : {survey.title}</span>
                                 <p>Email Subject : <strong className="right">{survey.subject}</strong></p>
                                 <p>Email Body : <strong className="right">{survey.body}</strong></p>
                                 <p>Send Date : <strong className="right">{survey.dateSend}</strong></p>
