@@ -21,3 +21,9 @@ export const getSurveyByUser = () => async dispatch => {
     const res = await axios.get('/api/dashboard')
     dispatch({type : FETCH_SURVEYS , payload : res})
 }
+
+export const deleteSurvey = (id) => async dispatch => {
+    await axios.post("/api/deletesurvey" , id)
+    const res = await axios.get('/api/dashboard')
+    dispatch({type : FETCH_SURVEYS , payload : res})
+}

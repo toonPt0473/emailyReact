@@ -7,10 +7,10 @@ class Dashboard extends Component {
 
     componentDidMount(){
         this.props.getSurveyByUser();
+        
     }
 
     renderContent(surveys){
-        
         if(surveys == null){
             return <div className="progress">
                         <div className="indeterminate"></div>
@@ -26,7 +26,7 @@ class Dashboard extends Component {
         }
 
         return surveys.map(survey => {
-            const emails = survey.recipients.map(({ email }) => email).toString()
+            const emails = survey.recipients.map( ({ email }) => email).toString()
             return (
                 <div className="row" key={survey._id}>
                     <div className="col s12 m12">
@@ -39,6 +39,9 @@ class Dashboard extends Component {
                                 <p>Recipients List : <strong className="right">{emails}</strong></p>
                                 <p>Vote YES : <strong className="right">{survey.yes}</strong></p>
                                 <p>Vote NO : <strong className="right">{survey.no}</strong></p>
+                                <p style={{textAlign:"center"}}>
+                                    <button className="btn red" onClick={() => this.props.deleteSurvey({id : survey._id})}>Delete this survey</button>
+                                </p>
                             </div>
                         </div>
                     </div>

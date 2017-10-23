@@ -71,7 +71,16 @@ module.exports = (app) => {
     })
 
     app.get('/api/dashboard', async (req , res) => {
+        if(!req.user){
+            res.send()
+        }
         const userSurvey = await Survey.find({_user : req.user.id})
         res.send(userSurvey)
+    })
+
+    app.post('/api/deletesurvey' , async (req , res) => {
+        const { id } = req.body
+        const deleteSurvey = await Survey.findOneAndRemove({_id : id})
+        res.send(deleteSurvey)
     })
 }
