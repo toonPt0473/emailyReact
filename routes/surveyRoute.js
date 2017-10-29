@@ -9,10 +9,8 @@ const nodemailer = require('nodemailer');
 
 module.exports = (app) => {
     app.get('/api/surveys/thank/:userid/:surveyid/yes' , async (req , res) => {
-        //console.log(req.params.surveyid)
         const request = await Survey.findById(req.params.surveyid);
         if(request._user == req.params.userid){
-            console.log(request)
             request.yes += 1;
             await request.save()
         }
@@ -20,7 +18,6 @@ module.exports = (app) => {
     })
 
     app.get('/api/surveys/thank/:userid/:surveyid/no' , async (req , res) => {
-        //console.log(req.params.surveyid)
         const request = await Survey.findById(req.params.surveyid);
         if(request._user == req.params.userid){
             request.no += 1;
